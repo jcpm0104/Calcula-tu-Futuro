@@ -1998,34 +1998,29 @@ upgradeBtn.style.zIndex = "9999";
 
 document.body.appendChild(upgradeBtn);
 
-upgradeBtn.addEventListener("click", async () => {
-
 const endpoint = "https://createcheckoutsession-hfyu5rcyvq-uc.a.run.app";
 
-try {
+upgradeBtn.addEventListener("click", async () => {
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
 
-const response = await fetch(endpoint,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-}
-});
+    const data = await response.json();
 
-const data = await response.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Error creating checkout session");
+    }
 
-if(data.url){
-window.location.href = data.url;
-}else{
-alert("Error creating checkout session");
-}
-
-}catch(error){
-
-console.error(error);
-alert("Connection error with server");
-
-}
-
+  } catch (error) {
+    console.error(error);
+    alert("Connection error with server");
+  }
 });
     syncAuthTranslations();
   </script>
