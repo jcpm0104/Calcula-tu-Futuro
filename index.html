@@ -1983,7 +1983,50 @@ p{margin-top:6px !important;}
       await refreshUIFromUser(user);
       syncAuthTranslations();
     });
+const upgradeBtn = document.createElement("button");
+upgradeBtn.innerText = "Upgrade to Pro";
+upgradeBtn.style.position = "fixed";
+upgradeBtn.style.bottom = "20px";
+upgradeBtn.style.right = "20px";
+upgradeBtn.style.padding = "12px 20px";
+upgradeBtn.style.background = "#6366f1";
+upgradeBtn.style.color = "white";
+upgradeBtn.style.border = "none";
+upgradeBtn.style.borderRadius = "8px";
+upgradeBtn.style.cursor = "pointer";
+upgradeBtn.style.zIndex = "9999";
 
+document.body.appendChild(upgradeBtn);
+
+upgradeBtn.addEventListener("click", async () => {
+
+const endpoint = "https://us-central1-future-capital-dc476.cloudfunctions.net/createCheckoutSession";
+
+try {
+
+const response = await fetch(endpoint,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+}
+});
+
+const data = await response.json();
+
+if(data.url){
+window.location.href = data.url;
+}else{
+alert("Error creating checkout session");
+}
+
+}catch(error){
+
+console.error(error);
+alert("Connection error with server");
+
+}
+
+});
     syncAuthTranslations();
   </script>
 
